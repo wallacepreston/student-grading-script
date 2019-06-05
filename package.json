@@ -1,0 +1,24 @@
+{
+  "name": "student-grading-script",
+  "version": "1.0.0",
+  "description": "A Script to Download all Student Repositories for adding Feedback",
+  "main": "index.js",
+  "scripts": {
+    "clone": "node clone.js",
+    "push": "node push.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wallacepreston/student-grading-script.git"
+  },
+  "author": "Preston Wallace",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wallacepreston/student-grading-script/issues"
+  },
+  "homepage": "https://github.com/wallacepreston/student-grading-script#readme",
+  "dependencies": {
+    "path": "^0.12.7",
+    "simple-git": "^1.113.0"
+  }
+}
