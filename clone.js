@@ -4,6 +4,7 @@ const simpleGit = require('simple-git')();
 const students = require('./students')
 const exec = require('child_process').exec;
 console.log('students to clone: ', students);
+const code = process.argv[2];
 
 const cloneOne = async (studentName, URL) => {
   const pathToLocalRepo = path.join(__dirname, 'student_projects', studentName)
@@ -16,6 +17,7 @@ const cloneOne = async (studentName, URL) => {
     console.log(`RUBRIC.md was copied into ${studentName}'s repo!`);
   });
   await exec(`code ${pathToLocalRepo}`);
+  if (code) await exec(`code ${pathToLocalRepo}`);
 }
 
 for (let student of students) {
