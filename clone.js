@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs');
 const simpleGit = require('simple-git')();
 const students = require('./students')
-
+const exec = require('child_process').exec;
 console.log('students to clone: ', students);
 
 const cloneOne = async (studentName, URL) => {
@@ -15,6 +15,7 @@ const cloneOne = async (studentName, URL) => {
     if (err) throw err;
     console.log(`RUBRIC.md was copied into ${studentName}'s repo!`);
   });
+  await exec(`code ${pathToLocalRepo}`);
 }
 
 for (let student of students) {
