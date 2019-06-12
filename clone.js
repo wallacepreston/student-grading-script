@@ -16,8 +16,8 @@ const cloneOne = async (studentName, URL) => {
     if (err) throw err;
     console.log(`RUBRIC.md was copied into ${studentName}'s repo!`);
   });
-  await exec(`code ${pathToLocalRepo}`);
   if (code) await exec(`code ${pathToLocalRepo}`);
+  await exec(`npm install --prefix ${pathToLocalRepo}`);
 }
 
 for (let student of students) {
