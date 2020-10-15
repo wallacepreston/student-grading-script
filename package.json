@@ -4,7 +4,7 @@
   "description": "A Script to Download all Student Repositories for adding Feedback",
   "main": "index.js",
   "scripts": {
-    "clone": "node clone.js",
+    "clone": "node clone.js code",
     "push": "node push.js"
   },
   "repository": {
