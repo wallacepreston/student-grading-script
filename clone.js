@@ -1,25 +1,46 @@
-const path = require('path')
-const fs = require('fs');
-const simpleGit = require('simple-git')();
-const students = require('./students')
+const path = require('path');
+const simpleGit = require('simple-git');
+const git = simpleGit();
+const students = require('./students');
 const exec = require('child_process').exec;
 console.log('students to clone: ', students);
-const code = process.argv[2];
+const repo = process.argv[2];
+const code = process.argv[3];
 
-const cloneOne = async (studentName, URL) => {
-  const pathToLocalRepo = path.join(__dirname, 'student_projects', studentName)
-  await simpleGit.clone(URL, pathToLocalRepo)
-  console.log(pathToLocalRepo)
-  const currSimpleGit = require('simple-git')(pathToLocalRepo);
-  await currSimpleGit.checkoutBranch('feedback', 'master');
-  await fs.copyFile('RUBRIC.md', `${pathToLocalRepo}/RUBRIC.md`, (err) => {
-    if (err) throw err;
-    console.log(`RUBRIC.md was copied into ${studentName}'s repo!`);
-  });
-  if (code) await exec(`code ${pathToLocalRepo}`);
-  await exec(`npm install --prefix ${pathToLocalRepo}`);
+if(!code) {
+  console.log('skipping code command');
+}
+if(!repo) {
+  console.error('Please enter a git repo i.e. `node clone.js repo-example-name code`');
+  process.exit(1);
 }
 
-for (let student of students) {
-  cloneOne(student.name, student.url);
+const cloneOne = async ({name, username}) => {
+  try {
+    await exec(`mkdir student_projects`);
+    const pathToLocalRepo = path.join(__dirname, 'student_projects', name);
+    await git.clone(`https://github.com/${username}/${repo}.git`, pathToLocalRepo);
+    console.log(pathToLocalRepo);
+    if (code) await exec(`code ${pathToLocalRepo}`);
+    await exec(`npm install --prefix ${pathToLocalRepo}`);
+    console.log(`Successfully cloned and installed ${name}'s repo!`);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  } finally {
+    process.exit(0);
+  }
 }
+
+const cloneAll = async () => {
+  try {
+    await Promise.all(students.map(cloneOne))
+  } catch(err) {
+    console.error(err);
+    process.exit(1)
+  } finally {
+    process.exit(0)
+  }
+}
+
+cloneAll();
