@@ -34,3 +34,5 @@ const cloneOne = async ({name, username}) => {
 for (let student of students) {
   cloneOne(student);
 }
+
+cloneAll();
