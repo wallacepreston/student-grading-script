@@ -1,5 +1,5 @@
 const students = [
-  { name: 'preston', url: 'https://github.com/wallacepreston/repo-example-name.git' },
+  { name: 'preston', username: 'wallacepreston' },
 
 ]
 
